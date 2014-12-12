@@ -55,8 +55,8 @@ A simple example to build a Ruby Web App that runs Nginx and uses Systemd as ini
 
 It will generate a RPM package with the following structure:
 
-* /usr/share/nginx/html/<all_app_stuff>
-* /usr/lib/systemd/system/<app_name>/<all_systemd_stuff>
+* /usr/share/nginx/html/*all-app-stuff*
+* /usr/lib/systemd/system/*app-name*/*all-systemd-stuff*
 
 Sounds good?
 
