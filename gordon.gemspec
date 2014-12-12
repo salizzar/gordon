@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Gordon::VERSION
   spec.authors       = ["Marcelo Pinheiro"]
   spec.email         = ["salizzar@gmail.cokm"]
-  spec.description   = %q{Gordon is a tool to create artifacts using fpm-cookery.}
+  spec.description   = %q{Gordon is a tool to create artifacts using fpm-cookery and foreman.}
   spec.summary       = %q{A tool to create application artifacts}
   spec.homepage      = "https://github.com/salizzar/gordon"
   spec.license       = "MIT"
