@@ -68,6 +68,10 @@ Because I want to create a tool that can be used as a transition step.
 
 Because I not found a trivial way to use fpm when you need to package a application under different directories (Apache2 and Systemd per example). If you show to me, I will think to abolish templates.
 
+## Why Gordon?
+
+Because I like Gordon Ramsay.
+
 ## TODO
 
 * Very unstable, need to fix it
