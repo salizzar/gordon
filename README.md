@@ -39,19 +39,19 @@ Or install it yourself as:
 
 A simple example to build a Ruby Web App that runs Nginx and uses Systemd as init process:
 
-    $ ruby -S gordon 				\
-	--app-type 		ruby_web_app	\
-	--app-name 		$APP_NAME 	\
-	--app-desc 		$APP_DESC 	\
-	--app-repo 		$APP_REPO	\
-	--app-version		$APP_VERSION	\
-	--package-type		rpm		\
-	--package-dir		.		\
-	--source-dir		.		\
-	--build-dir		/tmp		\
-	--skeleton-type 	nginx		\
-	--init-type		systemd		\
-	--init-build-dir	/tmp/systemd
+    $ ruby -S gordon 			\
+      --app-type 	ruby_web_app	\
+      --app-name 	$APP_NAME 	\
+      --app-desc 	$APP_DESC 	\
+      --app-repo 	$APP_REPO	\
+      --app-version	$APP_VERSION	\
+      --package-type	rpm		\
+      --package-dir	.		\
+      --source-dir	.		\
+      --build-dir	/tmp		\
+      --skeleton-type 	nginx		\
+      --init-type	systemd		\
+      --init-build-dir	/tmp/systemd
 
 It will generate a RPM package with the following structure:
 
