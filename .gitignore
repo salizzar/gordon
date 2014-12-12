@@ -1,4 +1,8 @@
 *.gem
+*.rpm
+*.deb
+*.tar
+*.gz
 *.rbc
 .bash_history
 .bundle
