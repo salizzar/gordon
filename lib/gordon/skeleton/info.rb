@@ -3,7 +3,7 @@ module Gordon
     class Info
       attr_reader :type, :artifacts
 
-      BLACKLIST = %w(.git log spec Vagrantfile)
+      BLACKLIST = %w(.git log spec Vagrantfile coverage tmp/cache)
 
       def initialize(type, source_dir)
         @type, @artifacts = type, clean_source_files(source_dir)
