@@ -51,7 +51,7 @@ A simple example to build a Ruby Web App that runs Nginx and uses Systemd as ini
       --build-dir       /tmp            \
       --skeleton-type   nginx           \
       --init-type       systemd         \
-      --init-build-dir  /tmp/systemd
+      --init-build-dir  /tmp
 
 It will generate a RPM package in pkg/ with the following structure:
 
