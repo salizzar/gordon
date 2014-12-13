@@ -46,14 +46,14 @@ A simple example to build a Ruby Web App that runs Nginx and uses Systemd as ini
       --app-repo        $APP_REPO       \
       --app-version     $APP_VERSION    \
       --package-type    rpm             \
-      --package-dir     .               \
+      -P                pkg             \
       --source-dir      .               \
       --build-dir       /tmp            \
       --skeleton-type   nginx           \
       --init-type       systemd         \
       --init-build-dir  /tmp/systemd
 
-It will generate a RPM package with the following structure:
+It will generate a RPM package in pkg/ with the following structure:
 
 * /usr/share/nginx/html/*all-app-stuff*
 * /usr/lib/systemd/system/*app-name*/*all-systemd-stuff*
