@@ -6,6 +6,8 @@ Of course, [fpm](https://github.com/jordansissel/fpm) is a awesome tool to abstr
 
 Of course, [fpm-cookery](https://github.com/bernd/fpm-cookery) is another great tool to approach building as a simple recipe.
 
+Of course, [foreman](https://github.com/ddollar/foreman) is a great tool to handle Procfile-based applications and have the amazing feature of export to init files (systemd, runit, inittab).
+
 But, unfortunately, create recipes for each application can be boring and repetitive. You need to create init files (inittab, systemd, etc) for each project
 and, if a webserver changes (example: from Thin to Unicorn) you need to change script again, again and again.
 
