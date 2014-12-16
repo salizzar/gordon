@@ -1,12 +1,10 @@
-require 'forwardable'
-
 module Gordon
   class Recipe
-    attr_reader :options, :skeleton
+    attr_reader :options, :application
 
     def initialize(options)
       @options = options
-      @skeleton = Skeleton::Info.new(options.skeleton_type, options.source_dir)
+      @application = Application::Factory.create(options.app_type)
     end
 
     def platform
@@ -23,8 +21,6 @@ module Gordon
     end
 
     def application_template_path
-      application = Application::Factory.create(options.app_type)
-
       application.template_path
     end
   end
