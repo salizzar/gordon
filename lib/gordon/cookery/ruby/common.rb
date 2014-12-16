@@ -2,7 +2,7 @@ module Gordon
   module Cookery
     module Ruby
       module Common
-        RUBY_BLACKLIST_FILES = %w(coverage log spec tmp vendor/cache)
+        RUBY_BLACKLIST_FILES = %w(.rspec coverage log spec tmp)
 
         def ruby_vendor_gems
           command = 'ruby -S bundle package --all'
