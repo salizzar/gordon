@@ -1,41 +1,39 @@
-$app_name       = ENV['GORDON_APP_NAME']
-$app_desc       = ENV['GORDON_APP_DESC']
-$app_repo       = ENV['GORDON_APP_REPO']
-$app_version    = ENV['GORDON_APP_VERSION']
-#app_depends    = ENV['GORDON_APP_DEPENDS']
-$app_source_dir = ENV['GORDON_APP_SOURCE_DIR']
-
-$skeleton_type  = ENV['GORDON_SKELETON_TYPE']
-$skeleton_files = ENV['GORDON_SKELETON_FILES']
-
-$init_type      = ENV['GORDON_INIT_TYPE']
-$init_build_dir = ENV['GORDON_INIT_BUILD_DIR']
-
 path = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib'))
 $LOAD_PATH.unshift path
 
 require 'gordon'
 
+$env_vars = Gordon::EnvVars.load
+
 class RubyWebApp < FPM::Cookery::Recipe
   include Gordon::Cookery::Common,
           Gordon::Cookery::Init,
-          Gordon::Cookery::Webserver
+          Gordon::Cookery::BeforeInstall,
+          Gordon::Cookery::AfterInstall,
+          Gordon::Cookery::HttpServer,
+          Gordon::Cookery::Ruby::Common
 
-  name        $app_name
-  description $app_desc
-  version     $app_version
-  homepage    $app_repo
+  name        $env_vars.app_name
+  description $env_vars.app_desc
+  version     $env_vars.app_version
+  homepage    $env_vars.app_repo
 
-  source      $app_source_dir, with: :local_path
-# depends     $app_depends
+  source      $env_vars.app_source_dir, with: :local_path
 
   def build
-    vendor_gems
+    home_path = get_skeleton_path_from_type($env_vars.http_server_type)
+
+    create_before_install(home_path)
+    create_after_install(home_path)
+
+    create_init
+
+    ruby_vendor_gems
   end
 
   def install
-    setup_init_files
-    setup_webserver_files
+    install_init
+    install_http_server_files(RUBY_BLACKLIST_FILES)
   end
 end
 
