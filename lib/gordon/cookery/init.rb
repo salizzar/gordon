@@ -1,25 +1,21 @@
 module Gordon
   module Cookery
     module Init
-      def setup_init_files
-        create_init_files
-        install_init_files
+      def create_init
+        init_build_dir_path = builddir($env_vars.init_type)
+
+        command = "ruby -S foreman export --app #{$env_vars.app_name} --user #{$env_vars.app_name} #{$env_vars.init_type} #{init_build_dir_path}"
+
+        safesystem(command)
       end
 
-      def create_init_files
-        init_build_dir_path = File.join($init_build_dir, $init_type)
+      def install_init
+        init_build_dir_path = builddir($env_vars.init_type)
 
-        command = "ruby -S foreman export --app #{$app_name} #{$init_type} #{init_build_dir_path}"
-        ::Gordon::Process.run(command)
-      end
+        skeleton_path = get_skeleton_path_from_type($env_vars.init_type)
+        skeleton_files = Dir["#{init_build_dir_path}/*"]
 
-      def install_init_files
-        init_build_dir_path = File.join($init_build_dir, $init_type)
-
-        skeleton_type = ::Gordon::Skeleton::Types::Factory.create($init_type)
-        path = get_skeleton_path(skeleton_type)
-
-        root(path).install Dir["#{init_build_dir_path}/*"]
+        root(skeleton_path).install skeleton_files
       end
     end
   end
