@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Gordon::VERSION
   spec.authors       = ["Marcelo Pinheiro"]
   spec.email         = ["salizzar@gmail.com"]
-  spec.description   = %q{Gordon is a tool to create artifacts using fpm-cookery and foreman.}
-  spec.summary       = %q{A tool to create application artifacts}
+  spec.description   = %q{Gordon is a tool to create OS packages using fpm-cookery and foreman, based on a lot of conventions.}
+  spec.summary       = %q{A tool to create application OS packages}
   spec.homepage      = "https://github.com/salizzar/gordon"
   spec.license       = "MIT"
 
@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "debugger"
 
   spec.add_dependency "fpm-cookery"
   spec.add_dependency "foreman"
