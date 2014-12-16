@@ -1,7 +1,7 @@
 module Gordon
   module Cookery
     module Common
-      MAIN_BLACKLIST_FILES = %w(Vagrantfile)
+      MAIN_BLACKLIST_FILES = %w(.git .gitignore .pki Vagrantfile)
 
       def get_skeleton_path_from_type(type)
         skeleton_type = Skeleton::Factory.create(type)
@@ -12,7 +12,13 @@ module Gordon
         blacklist = (MAIN_BLACKLIST_FILES + custom_blacklist_files).flatten
 
         # TODO: create a way to make a performatic grep here to avoid undesired/directory/*
-        files = Dir['*'] - blacklist
+        files = Dir['{*,.*}'].sort[2..-1].reject do |entry|
+          pattern = entry.gsub(/\./, '\.').gsub(/\//, '\/')
+
+          found = blacklist.grep(/#{pattern}/i)
+
+          found.any?
+        end
 
         files
       end
