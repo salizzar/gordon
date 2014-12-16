@@ -2,7 +2,7 @@ module Gordon
   module Cookery
     module ApplicationUser
       def create_user_and_group(home_path)
-        File.open(builddir('before-install'), 'w', 0755) do |f|
+        File.open(builddir('.gordon-before-install'), 'w', 0755) do |f|
           bash = <<-__BASH
 #!/bin/sh
 
@@ -20,7 +20,7 @@ set -e
       end
 
       def setup_user_permissions(home_path)
-        File.open(builddir('after-install'), 'w', 0755) do |f|
+        File.open(builddir('.gordon-after-install'), 'w', 0755) do |f|
           bash = <<-__BASH
 #!/bin/sh
 
