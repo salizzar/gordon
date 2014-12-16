@@ -8,8 +8,7 @@ $env_vars = Gordon::EnvVars.load
 class RubyWebApp < FPM::Cookery::Recipe
   include Gordon::Cookery::Common,
           Gordon::Cookery::Init,
-          Gordon::Cookery::BeforeInstall,
-          Gordon::Cookery::AfterInstall,
+          Gordon::Cookery::ApplicationUser,
           Gordon::Cookery::HttpServer,
           Gordon::Cookery::Ruby::Common
 
@@ -23,8 +22,8 @@ class RubyWebApp < FPM::Cookery::Recipe
   def build
     home_path = get_skeleton_path_from_type($env_vars.http_server_type)
 
-    create_before_install(home_path)
-    create_after_install(home_path)
+    create_user_and_group(home_path)
+    setup_user_permissions(home_path)
 
     create_init
 
