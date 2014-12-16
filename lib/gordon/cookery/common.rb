@@ -1,16 +1,20 @@
 module Gordon
   module Cookery
     module Common
-      def vendor_gems
-        safesystem('ruby -S bundle install --deployment --without development test')
+      MAIN_BLACKLIST_FILES = %w(Vagrantfile)
+
+      def get_skeleton_path_from_type(type)
+        skeleton_type = Skeleton::Factory.create(type)
+        skeleton_type.path(skeleton_type.requires_app_name? ? $env_vars.app_name : '')
       end
 
-      def common_ruby_files
-        %w(.bundle Gemfile Gemfile.lock Procfile config.ru vendor)
-      end
+      def all_files_except_blacklisted(*custom_blacklist_files)
+        blacklist = (MAIN_BLACKLIST_FILES + custom_blacklist_files).flatten
 
-      def get_skeleton_path(skeleton_type)
-        skeleton_type.path(skeleton_type.requires_app_name? ? $app_name : '')
+        # TODO: create a way to make a performatic grep here to avoid undesired/directory/*
+        files = Dir['*'] - blacklist
+
+        files
       end
     end
   end
