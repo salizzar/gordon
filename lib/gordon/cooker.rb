@@ -1,55 +1,69 @@
 module Gordon
   class Cooker
-    attr_reader :options, :recipe
+    attr_reader :recipe, :options
 
-    def initialize(recipe, options)
+    FPM_COOKERY_COMMAND   = 'ruby -S fpm-cook'
+    FPM_COOKERY_CACHE_DIR = '/tmp/gordon/cache'
+    FPM_COOKERY_BUILD_DIR = '/tmp/gordon/build'
+
+    def initialize(recipe)
       @recipe = recipe
-      @options = options
+      @options = recipe.options
     end
 
     def cook
+      clean
+      package
+    end
+
+    private
+
+    def clean
+      cook_args = get_command_args
+
+      cook_args << "clean"
+      cook_args << recipe.application_template_path
+
+      execute(cook_args)
+    end
+
+    def package
+      cook_args = get_command_args
+
+      cook_args << "package"
+      cook_args << recipe.application_template_path
+
+      execute(cook_args)
+    end
+
+    def get_command_args
       cook_args = []
 
       cook_args << "--debug"    if options.debug?
 
       cook_args << "--target #{options.package_type}"
       cook_args << "--platform #{recipe.platform}" if recipe.requires_platform?
-      cook_args << "--cache-dir #{File.expand_path(options.build_dir)}"
-      cook_args << "--tmp-root #{File.expand_path(options.build_dir)}"
-      cook_args << "--pkg-dir #{File.expand_path(options.package_dir)}"
-      cook_args << "package"
-      cook_args << recipe.application_template_path
+      cook_args << "--pkg-dir #{File.expand_path(options.output_dir)}"
+      cook_args << "--cache-dir #{File.expand_path(FPM_COOKERY_CACHE_DIR)}"
+      cook_args << "--tmp-root #{File.expand_path(FPM_COOKERY_CACHE_DIR)}"
 
-      env_vars = get_env_vars
-      command = "#{env_vars.join " "} ruby -S fpm-cook #{cook_args.join " "}"
+      cook_args
+    end
 
-      if options.debug?
-        STDOUT.puts ''
-        STDOUT.puts command
-        STDOUT.puts ''
-      end
+    def execute(cook_args)
+      env_vars = EnvVars.from_cook(options)
+
+      command = "#{env_vars.join " "} #{FPM_COOKERY_COMMAND} #{cook_args.join " "}"
+
+      debug(command) if options.debug?
 
       Process.run(command)
     end
 
-    private
-
-    def get_env_vars
-      env_vars = []
-
-      env_vars << "GORDON_APP_NAME=#{options.app_name}"
-      env_vars << "GORDON_APP_DESC=#{options.app_desc}"
-      env_vars << "GORDON_APP_REPO=#{options.app_repo}"
-      env_vars << "GORDON_APP_VERSION=#{options.app_version}"
-      env_vars << "GORDON_APP_SOURCE_DIR=#{File.expand_path(options.source_dir)}"
-
-      env_vars << "GORDON_SKELETON_TYPE=#{recipe.skeleton.type}"
-      env_vars << "GORDON_SKELETON_FILES=#{recipe.skeleton.artifacts.join(',')}"
-
-      env_vars << "GORDON_INIT_TYPE=#{options.init_type}"
-      env_vars << "GORDON_INIT_BUILD_DIR=#{File.expand_path(options.init_build_dir)}"
-
-      env_vars
+    def debug(command)
+      STDOUT.puts ''
+      STDOUT.puts command
+      STDOUT.puts ''
     end
   end
 end
