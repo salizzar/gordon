@@ -45,7 +45,7 @@ module Gordon
       cook_args << "--platform #{recipe.platform}" if recipe.requires_platform?
       cook_args << "--pkg-dir #{File.expand_path(options.output_dir)}"
       cook_args << "--cache-dir #{File.expand_path(FPM_COOKERY_CACHE_DIR)}"
-      cook_args << "--tmp-root #{File.expand_path(FPM_COOKERY_CACHE_DIR)}"
+      cook_args << "--tmp-root #{File.expand_path(FPM_COOKERY_BUILD_DIR)}"
 
       cook_args
     end
