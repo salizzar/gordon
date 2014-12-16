@@ -3,7 +3,7 @@ module Gordon
     module Types
       module Base
         def path(app = '')
-          File.join(get_default_path, app)
+          File.join(get_default_path, app.to_s)
         end
 
         def requires_app_name?
@@ -40,14 +40,6 @@ module Gordon
 
         def requires_app_name?
           true
-        end
-      end
-
-      class Factory
-        def self.create(skeleton_type)
-          namespace = "Skeleton::Types"
-
-          ::Gordon::Factory.create_instance(namespace, skeleton_type)
         end
       end
     end
