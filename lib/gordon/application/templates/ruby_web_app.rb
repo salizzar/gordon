@@ -6,6 +6,8 @@ require 'gordon'
 $env_vars = Gordon::EnvVars.load
 
 class RubyWebApp < FPM::Cookery::Recipe
+  extend  Gordon::Cookery::DependencyResolver
+
   include Gordon::Cookery::Common,
           Gordon::Cookery::Init,
           Gordon::Cookery::ApplicationUser,
@@ -18,6 +20,8 @@ class RubyWebApp < FPM::Cookery::Recipe
   homepage    $env_vars.app_repo
 
   source      $env_vars.app_source_dir, with: :local_path
+
+  depends     *resolve_dependencies($env_vars)
 
   def build
     home_path = get_skeleton_path_from_type($env_vars.http_server_type)
