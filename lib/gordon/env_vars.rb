@@ -4,7 +4,6 @@ module Gordon
     attr_accessor :runtime_version
     attr_accessor :http_server_type
     attr_accessor :init_type
-    attr_accessor :package_type
 
     def self.from_cook(options)
       env_vars = []
@@ -18,7 +17,6 @@ module Gordon
       env_vars << "GORDON_RUNTIME_VERSION='#{options.runtime_version}'"
       env_vars << "GORDON_HTTP_SERVER_TYPE='#{options.http_server_type}'"
       env_vars << "GORDON_INIT_TYPE='#{options.init_type}'"
-      env_vars << "GORDON_PACKAGE_TYPE='#{options.package_type}'"
 
       env_vars
     end
@@ -35,7 +33,6 @@ module Gordon
       env_vars.runtime_version  = ENV['GORDON_RUNTIME_VERSION']
       env_vars.http_server_type = ENV['GORDON_HTTP_SERVER_TYPE']
       env_vars.init_type        = ENV['GORDON_INIT_TYPE']
-      env_vars.package_type     = ENV['GORDON_PACKAGE_TYPE']
 
       env_vars
     end
