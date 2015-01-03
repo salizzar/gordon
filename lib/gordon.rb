@@ -12,6 +12,7 @@ module Gordon
   require 'gordon/application/types'
   require 'gordon/cookery/application_user'
   require 'gordon/cookery/common'
+  require 'gordon/cookery/dependency_resolver'
   require 'gordon/cookery/init'
   require 'gordon/cookery/http_server'
   require 'gordon/cookery/ruby/common'
