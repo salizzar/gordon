@@ -42,15 +42,16 @@ Or install it yourself as:
 
 ## Usage
 
-A simple example to build a Ruby Web App that runs Nginx and uses Systemd as init process:
+Here a simple example to build a Ruby Web App that runs Nginx and uses Systemd as init process. Just enter on source folder of your app and run in your terminal:
 
     $ ruby -S gordon                     \
+      --app-type         ruby_web_app    \
       --app-name         $APP_NAME       \
       --app-desc         $APP_DESC       \
       --app-repo         $APP_REPO       \
       --app-version      $APP_VERSION    \
       --app-source-dir   .               \
-      --app-type         ruby_web_app    \
+      --runtime-version  $MRI_VERSION    \
       --http-server-type nginx           \
       --init-type        systemd         \
       --package-type     rpm             \
@@ -82,11 +83,10 @@ Because I like Gordon Ramsay.
 
 ## TODO
 
-* Very unstable, need to fix it
 * Validate outputs
-* Add a way to map package dependencies
-* Adapt to use Debian and other OS conventions for Nginx and Apache
 * Tests
+* Very unstable, need to fix it
+* Debian check (gem heavly developed under CentOS environment)
 
 ## Contributing
 
