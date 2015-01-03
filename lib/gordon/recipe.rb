@@ -9,11 +9,11 @@ module Gordon
 
     def platform
       map = {
-        'rpm' => 'centos',
-        'deb' => 'debian',
+        rpm: :centos,
+        deb: :debian,
       }
 
-      map[options.package_type]
+      map[options.package_type.to_sym]
     end
 
     def requires_platform?
