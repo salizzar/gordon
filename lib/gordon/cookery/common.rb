@@ -3,8 +3,12 @@ module Gordon
     module Common
       MAIN_BLACKLIST_FILES = %w(.git .gitignore .pki Vagrantfile)
 
+      def self.included(base)
+        base.send(:extend, self)
+      end
+
       def get_skeleton_path_from_type(type)
-        skeleton_type = Skeleton::Factory.create(type)
+        skeleton_type = create_skeleton_type(type)
         skeleton_type.path(skeleton_type.requires_app_name? ? $env_vars.app_name : '')
       end
 
@@ -21,6 +25,10 @@ module Gordon
         end
 
         files
+      end
+
+      def create_skeleton_type(type)
+        Skeleton::Factory.create(type)
       end
     end
   end
