@@ -26,17 +26,17 @@ class RubyWebApp < FPM::Cookery::Recipe
   def build
     home_path = get_skeleton_path_from_type($env_vars.http_server_type)
 
-    create_user_and_group(home_path)
-    setup_user_permissions(home_path)
+    create_user_and_group($env_vars, home_path)
+    setup_user_permissions($env_vars, home_path)
 
-    create_init
+    create_init($env_vars)
 
     ruby_vendor_gems
   end
 
   def install
-    install_init
-    install_http_server_files(RUBY_BLACKLIST_FILES)
+    install_init($env_vars)
+    install_http_server_files($env_vars, RUBY_BLACKLIST_FILES)
   end
 end
 

@@ -1,15 +1,15 @@
 module Gordon
   module Cookery
     module ApplicationUser
-      def create_user_and_group(home_path)
+      def create_user_and_group(env_vars, home_path)
         File.open(builddir('.gordon-before-install'), 'w', 0755) do |f|
           bash = <<-__BASH
 #!/bin/sh
 
 set -e
 
-/usr/bin/getent group  #{$env_vars.app_name} >/dev/null || /usr/sbin/groupadd --system #{$env_vars.app_name};
-/usr/bin/getent passwd #{$env_vars.app_name} >/dev/null || /usr/sbin/useradd  --system --gid #{$env_vars.app_name} --home-dir #{home_path} --shell /sbin/nologin --comment "#{$env_vars.app_desc}" #{$env_vars.app_name} >/dev/null || :;
+/usr/bin/getent group  #{env_vars.app_name} >/dev/null || /usr/sbin/groupadd --system #{env_vars.app_name};
+/usr/bin/getent passwd #{env_vars.app_name} >/dev/null || /usr/sbin/useradd  --system --gid #{env_vars.app_name} --home-dir #{home_path} --shell /sbin/nologin --comment "#{env_vars.app_desc}" #{env_vars.app_name} >/dev/null || :;
 
               __BASH
 
@@ -19,14 +19,14 @@ set -e
         end
       end
 
-      def setup_user_permissions(home_path)
+      def setup_user_permissions(env_vars, home_path)
         File.open(builddir('.gordon-after-install'), 'w', 0755) do |f|
           bash = <<-__BASH
 #!/bin/sh
 
 set -e
 
-/usr/bin/chown -R #{$env_vars.app_name}:#{$env_vars.app_name} #{home_path}
+/usr/bin/chown -R #{env_vars.app_name}:#{env_vars.app_name} #{home_path}
 
               __BASH
 
