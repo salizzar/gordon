@@ -29,7 +29,7 @@ class RubyWebApp < FPM::Cookery::Recipe
     create_user_and_group($env_vars, home_path)
     setup_user_permissions($env_vars, home_path)
 
-    create_init($env_vars)
+    create_init($env_vars, $env_vars.http_server_type)
 
     ruby_vendor_gems
   end
