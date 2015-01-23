@@ -1,10 +1,11 @@
 module Gordon
   module Cookery
     module Init
-      def create_init(env_vars)
+      def create_init(env_vars, skeleton_type)
         init_build_dir_path = builddir(env_vars.init_type)
+        skeleton_path = get_skeleton_path_from_type(skeleton_type)
 
-        command = "ruby -S foreman export --app #{env_vars.app_name} --user #{env_vars.app_name} #{env_vars.init_type} #{init_build_dir_path}"
+        command = "ruby -S foreman export --procfile Procfile --root #{skeleton_path} --app #{env_vars.app_name} --user #{env_vars.app_name} #{env_vars.init_type} #{init_build_dir_path}"
 
         safesystem(command)
       end

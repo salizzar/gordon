@@ -33,10 +33,6 @@ module Gordon
         def get_os_package_map ; { centos: :systemd, debian: :systemd } ; end
 
         def get_default_path ; '/usr/lib/systemd/system' ; end
-
-        def requires_app_name?
-          true
-        end
       end
 
       class Misc
