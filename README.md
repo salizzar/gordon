@@ -60,18 +60,18 @@ Here a simple example to build a Ruby Web App that runs Nginx and uses Systemd a
 It will generate a RPM package in pkg/ with the following structure:
 
 * /usr/share/nginx/html/*all-app-stuff*
-* /usr/lib/systemd/system/*app-name*/*all-systemd-stuff*
+* /usr/lib/systemd/system/*all-systemd-stuff*
 
 Due for conventions, remember:
 
 * /usr/share/nginx/html is $HOME of user *app-name*
-* Systemd will run app using user *app-name*
+* Systemd will run app using user *app-name.target*
 
 Sounds good?
 
 ## Why you not use Omnibus or Heroku buildpacks?
 
-Because I want to create a tool that can be used as a transition step for building apps.
+Because I want to create a tool able to create Linux packages.
 
 ## Why you use fpm-cookery templates instead of fpm?
 

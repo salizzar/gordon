@@ -1,7 +1,7 @@
 module Gordon
   module Cookery
     module Common
-      MAIN_BLACKLIST_FILES = %w(.git .gitignore .pki Vagrantfile)
+      MAIN_BLACKLIST_FILES = %w(.git .gitignore .pki Vagrantfile cruise-output)
 
       def self.included(base)
         base.send(:extend, self)
