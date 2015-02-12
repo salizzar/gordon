@@ -16,6 +16,12 @@ module Gordon
         def get_template ; 'ruby_web_app' ; end
       end
 
+      class RubyStandaloneApp
+        include Base
+
+        def get_template ; 'ruby_standalone_app' ; end
+      end
+
       class JavaWebApp
         include Base
 
