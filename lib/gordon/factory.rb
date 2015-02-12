@@ -1,7 +1,7 @@
 module Gordon
   class Factory
     def self.create_instance(namespace, object_type)
-      fragments = object_type.split('_')
+      fragments = object_type.to_s.split('_')
 
       type = fragments.map do |fragment|
         fragment[0].upcase + fragment[1..-1]
