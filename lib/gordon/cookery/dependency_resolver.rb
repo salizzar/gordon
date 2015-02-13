@@ -16,7 +16,14 @@ module Gordon
       private
 
       def get_runtime_package_name(app_runtime, env_vars)
-        runtime_version = "#{app_runtime} = #{env_vars.runtime_version}"
+        if app_runtime == 'java'
+          # TODO: get a way to handle openjdk
+          runtime_name = :jre
+
+          runtime_version = "#{runtime_name}_#{env_vars.runtime_version}"
+        else
+          runtime_version = "#{runtime_name} = #{env_vars.runtime_version}"
+        end
 
         runtime_version
       end

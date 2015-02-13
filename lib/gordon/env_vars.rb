@@ -3,6 +3,7 @@ module Gordon
     attr_accessor :app_type, :app_name, :app_desc, :app_repo, :app_version, :app_source_dir
     attr_accessor :runtime_version
     attr_accessor :http_server_type
+    attr_accessor :web_server_type
     attr_accessor :init_type
 
     def self.from_cook(options)
@@ -16,6 +17,7 @@ module Gordon
       env_vars << "GORDON_APP_SOURCE_DIR='#{File.expand_path(options.app_source_dir)}'"
       env_vars << "GORDON_RUNTIME_VERSION='#{options.runtime_version}'"
       env_vars << "GORDON_HTTP_SERVER_TYPE='#{options.http_server_type}'"
+      env_vars << "GORDON_WEB_SERVER_TYPE='#{options.web_server_type}'"
       env_vars << "GORDON_INIT_TYPE='#{options.init_type}'"
 
       env_vars
@@ -32,6 +34,7 @@ module Gordon
       env_vars.app_source_dir   = ENV['GORDON_APP_SOURCE_DIR']
       env_vars.runtime_version  = ENV['GORDON_RUNTIME_VERSION']
       env_vars.http_server_type = ENV['GORDON_HTTP_SERVER_TYPE']
+      env_vars.web_server_type  = ENV['GORDON_WEB_SERVER_TYPE']
       env_vars.init_type        = ENV['GORDON_INIT_TYPE']
 
       env_vars

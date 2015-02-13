@@ -17,6 +17,7 @@ module Gordon
   require 'gordon/cookery/http_server'
   require 'gordon/cookery/ruby/common'
   require 'gordon/cookery/standalone'
+  require 'gordon/cookery/web_server'
   require 'gordon/skeleton/factory'
   require 'gordon/skeleton/types'
 end

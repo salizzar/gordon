@@ -51,6 +51,10 @@ module Gordon
           options.http_server_type = http_server_type
         end
 
+        opts.on('-W', '--web-server-type WEB_SERVER_TYPE', 'Web Server Type') do |web_server_type|
+          options.web_server_type = web_server_type
+        end
+
         opts.on('-I', '--init-type INIT_TYPE', 'Init Type') do |init_type|
           options.init_type = init_type
         end

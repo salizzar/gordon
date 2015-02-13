@@ -27,6 +27,22 @@ module Gordon
         def get_default_path ; '/var/www/html' ; end
       end
 
+      class Tomcat
+        include Base
+
+        def get_os_package_map ; { centos: :tomcat, debian: :tomcat7 } ; end
+
+        def get_default_path ; '/var/lib/tomcat/webapps' ; end
+      end
+
+      class Jetty
+        include Base
+
+        def get_os_package_map ; { centos: :'jetty-server', debian: :jetty } ; end
+
+        def get_default_path ; '/var/lib/jetty/webapps' ; end
+      end
+
       class Systemd
         include Base
 
