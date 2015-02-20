@@ -11,6 +11,7 @@ describe Gordon::EnvVars do
       app_source_dir:   ".",
       runtime_version:  "2.2.0",
       http_server_type: "nginx",
+      web_server_type:  "tomcat",
       init_type:        "systemd",
     }
   end
@@ -28,6 +29,7 @@ describe Gordon::EnvVars do
         "GORDON_APP_SOURCE_DIR='#{File.expand_path(options.app_source_dir)}'",
         "GORDON_RUNTIME_VERSION='#{options.runtime_version}'",
         "GORDON_HTTP_SERVER_TYPE='#{options.http_server_type}'",
+        "GORDON_WEB_SERVER_TYPE='#{options.web_server_type}'",
         "GORDON_INIT_TYPE='#{options.init_type}'",
       ]
 
@@ -46,6 +48,7 @@ describe Gordon::EnvVars do
         'GORDON_APP_SOURCE_DIR'   => options.app_source_dir,
         'GORDON_RUNTIME_VERSION'  => options.runtime_version,
         'GORDON_HTTP_SERVER_TYPE' => options.http_server_type,
+        'GORDON_WEB_SERVER_TYPE'  => options.web_server_type,
         'GORDON_INIT_TYPE'        => options.init_type,
       }
 
