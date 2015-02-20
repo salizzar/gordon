@@ -7,8 +7,9 @@ module Gordon
 
         dependencies = []
         dependencies << get_runtime_package_name(app_runtime, env_vars)
-        dependencies << get_http_server_package_name(env_vars) if app_type == 'web'
-        dependencies << get_init_package_name(env_vars)
+        dependencies << get_http_server_package_name(env_vars)  unless env_vars.http_server_type.empty?
+        dependencies << get_init_package_name(env_vars)         unless env_vars.init_type.empty?
+        dependencies << get_web_server_package_name(env_vars)   unless env_vars.web_server_type.empty?
 
         dependencies.collect(&:to_s)
       end
@@ -20,7 +21,7 @@ module Gordon
           # TODO: get a way to handle openjdk
           runtime_name = :jre
 
-          runtime_version = "#{runtime_name}_#{env_vars.runtime_version}"
+          runtime_version = "#{runtime_name}#{env_vars.runtime_version}"
         else
           runtime_version = "#{runtime_name} = #{env_vars.runtime_version}"
         end
@@ -34,6 +35,10 @@ module Gordon
 
       def get_init_package_name(env_vars)
         get_os_package_name(env_vars, :init_type)
+      end
+
+      def get_web_server_package_name(env_vars)
+        get_os_package_name(env_vars, :web_server_type)
       end
 
       def get_os_package_name(env_vars, attribute)
