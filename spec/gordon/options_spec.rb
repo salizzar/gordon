@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Gordon::Options do
-  describe 'debugging' do
+  describe 'mapping default accessors' do
     pending
   end
 end
