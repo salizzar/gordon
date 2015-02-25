@@ -15,23 +15,21 @@ class RubyStandaloneApp < FPM::Cookery::Recipe
           Gordon::Cookery::Ruby::Common
 
   name        $env_vars.app_name
-  description $env_vars.app_desc
+  description $env_vars.app_description
   version     $env_vars.app_version
-  homepage    $env_vars.app_repo
+  homepage    $env_vars.app_homepage
 
-  source      $env_vars.app_source_dir, with: :local_path
+  source      $env_vars.app_source, with: :local_path
 
   depends     *resolve_dependencies($env_vars)
 
   def build
-    home_path = get_skeleton_path_from_type(:misc)
+    home_path = get_skeleton_path_from_type($env_vars, :misc)
 
     create_user_and_group($env_vars, home_path)
     setup_user_permissions($env_vars, home_path)
 
     create_init($env_vars, :misc)
-
-    ruby_vendor_gems
   end
 
   def install
