@@ -6,6 +6,13 @@ module Gordon
           File.join(get_default_path, app.to_s)
         end
 
+        def get_os_package_name(os_name)
+          package = get_os_package_map[os_name]
+          raise Exceptions::OperationalSystemNotMapped.new(self.class.name, os_name) if package.nil?
+
+          package
+        end
+
         def requires_app_name?
           false
         end
