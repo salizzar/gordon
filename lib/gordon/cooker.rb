@@ -2,7 +2,7 @@ module Gordon
   class Cooker
     attr_reader :recipe, :options
 
-    FPM_COOKERY_COMMAND   = 'ruby -S fpm-cook'
+    FPM_COOKERY_COMMAND   = 'fpm-cook'
     FPM_COOKERY_CACHE_DIR = '/tmp/gordon/cache'
     FPM_COOKERY_BUILD_DIR = '/tmp/gordon/build'
 
@@ -39,10 +39,10 @@ module Gordon
     def get_command_args
       cook_args = []
 
-      cook_args << "--debug"    if options.debug?
+      cook_args << "--debug"    if options.debug
 
       cook_args << "--target #{options.package_type}"
-      cook_args << "--platform #{recipe.platform}" if recipe.requires_platform?
+#     cook_args << "--platform #{recipe.platform}" if recipe.requires_platform?
       cook_args << "--pkg-dir #{File.expand_path(options.output_dir)}"
       cook_args << "--cache-dir #{File.expand_path(FPM_COOKERY_CACHE_DIR)}"
       cook_args << "--tmp-root #{File.expand_path(FPM_COOKERY_BUILD_DIR)}"
@@ -56,7 +56,7 @@ module Gordon
 
       command = "#{env_vars.join " "} #{FPM_COOKERY_COMMAND} #{cook_args.join " "}"
 
-      debug(command) if options.debug?
+      debug(command) if options.debug
 
       Process.run(command)
     end
