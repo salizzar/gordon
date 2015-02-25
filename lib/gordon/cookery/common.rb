@@ -7,9 +7,14 @@ module Gordon
         base.send(:extend, self)
       end
 
-      def get_skeleton_path_from_type(type)
+      def get_skeleton_path_from_type(env_vars, type)
         skeleton_type = create_skeleton_type(type)
-        skeleton_type.path(skeleton_type.requires_app_name? ? $env_vars.app_name : '')
+        appended_path = skeleton_type.requires_app_name? ? env_vars.app_name : ''
+        skeleton_type.path(appended_path)
+      end
+
+      def create_skeleton_type(type)
+        Skeleton::Factory.create(type)
       end
 
       def all_files_except_blacklisted(*custom_blacklist_files)
@@ -25,10 +30,6 @@ module Gordon
         end
 
         files
-      end
-
-      def create_skeleton_type(type)
-        Skeleton::Factory.create(type)
       end
     end
   end
