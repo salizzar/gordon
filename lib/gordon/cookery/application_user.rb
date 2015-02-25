@@ -9,7 +9,7 @@ module Gordon
 set -e
 
 /usr/bin/getent group  #{env_vars.app_name} >/dev/null || /usr/sbin/groupadd --system #{env_vars.app_name};
-/usr/bin/getent passwd #{env_vars.app_name} >/dev/null || /usr/sbin/useradd  --system --gid #{env_vars.app_name} --home-dir #{home_path} --shell /sbin/nologin --comment "#{env_vars.app_desc}" #{env_vars.app_name} >/dev/null || :;
+/usr/bin/getent passwd #{env_vars.app_name} >/dev/null || /usr/sbin/useradd  --system --gid #{env_vars.app_name} --home-dir #{home_path} --shell /sbin/nologin --comment "#{env_vars.app_description}" #{env_vars.app_name} >/dev/null || :;
           __BASH
 
           f.write(bash)
