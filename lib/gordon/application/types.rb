@@ -2,7 +2,7 @@ module Gordon
   module Application
     module Types
       module Base
-        def template_path
+        def get_template_path
           curdir = File.dirname(__FILE__)
           template_path = File.join(curdir, 'templates', "#{get_template}.rb")
 
