@@ -8,4 +8,3 @@ module Gordon
   end
 end
 
-
