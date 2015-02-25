@@ -1,6 +1,10 @@
+require 'fpm/cookery/facts'
+
 module Gordon
   module Cookery
     module DependencyResolver
+      include Common
+
       def resolve_dependencies(env_vars)
         fragments = env_vars.app_type.split('_')
         app_runtime, app_type = fragments[0], fragments[1]
@@ -23,6 +27,8 @@ module Gordon
 
           runtime_version = "#{runtime_name}#{env_vars.runtime_version}"
         else
+          runtime_name = app_runtime
+
           runtime_version = "#{runtime_name} = #{env_vars.runtime_version}"
         end
 
@@ -42,10 +48,10 @@ module Gordon
       end
 
       def get_os_package_name(env_vars, attribute)
-        package_type = FPM::Cookery::Facts.platform.to_sym
+        platform = FPM::Cookery::Facts.platform.to_sym
 
         skeleton_type = create_skeleton_type(env_vars.send(attribute))
-        os_package_name = skeleton_type.get_os_package_map[package_type]
+        os_package_name = skeleton_type.get_os_package_name(platform)
 
         os_package_name
       end
