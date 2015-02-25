@@ -21,7 +21,7 @@ module Gordon
     end
 
     def application_template_path
-      application.template_path
+      application.get_template_path
     end
   end
 end
