@@ -4,7 +4,7 @@ module Gordon
   class CLI
     def self.run
       options = Options.new
-      options.app_source_dir = Dir.pwd
+      options.app_source = Dir.pwd
       options.output_dir = Dir.pwd
 
       parser = create_option_parser(options)
@@ -19,28 +19,32 @@ module Gordon
       parser = OptionParser.new do |opts|
         opts.banner = 'Usage: gordon [options]'
 
-        opts.on('-T', '--app-type APP_TYPE', 'Application Type') do |app_type|
-          options.app_type = app_type
-        end
-
         opts.on('-N', '--app-name APP_NAME', 'Application Name') do |app_name|
           options.app_name = app_name
         end
 
-        opts.on('-D', '--app-desc APP_DESC', 'Application Description') do |app_desc|
-          options.app_desc = app_desc
+        opts.on('-D', '--app-description APP_DESCRIPTION', 'Application Description') do |app_description|
+          options.app_description = app_description
         end
 
-        opts.on('-R', '--app-repo APP_REPO', 'Application Repository URL') do |app_repo|
-          options.app_repo = app_repo
+        opts.on('-G', '--app-homepage APP_HOMEPAGE', 'Application Homepage') do |app_homepage|
+          options.app_homepage = app_homepage
         end
 
         opts.on('-V', '--app-version APP_VERSION', 'Application Version') do |app_version|
           options.app_version = app_version
         end
 
-        opts.on('-S', '--app-source-dir APP_SOURCE_DIR', 'Application Source Directory') do |app_source_dir|
-          options.app_source_dir = app_source_dir
+        opts.on('-S', '--app-source APP_SOURCE', 'Application Source') do |app_source|
+          options.app_source = app_source
+        end
+
+        opts.on('-T', '--app-type APP_TYPE', 'Application Type') do |app_type|
+          options.app_type = app_type
+        end
+
+        opts.on('-X', '--runtime-name RUNTIME_NAME', 'Runtime Name') do |runtime_name|
+          options.runtime_name = runtime_name
         end
 
         opts.on('-R', '--runtime-version RUNTIME_VERSION', 'Runtime Version') do |runtime_version|
