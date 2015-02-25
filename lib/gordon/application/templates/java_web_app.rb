@@ -14,12 +14,12 @@ class JavaWebApp < FPM::Cookery::Recipe
           Gordon::Cookery::Java::WebApp
 
   name        $env_vars.app_name
-  description $env_vars.app_desc
+  description $env_vars.app_description
   version     $env_vars.app_version
-  homepage    $env_vars.app_repo
+  homepage    $env_vars.app_homepage
   arch        :noarch
 
-  source      $env_vars.app_source_dir, with: :local_path
+  source      $env_vars.app_source, with: :local_path
 
   depends     *resolve_dependencies($env_vars)
 
@@ -27,7 +27,9 @@ class JavaWebApp < FPM::Cookery::Recipe
   fpm_attributes[:rpm_group]  = 'tomcat'
 
   def build
-    war_path = File.join(get_skeleton_path_from_type($env_vars.web_server_type), $env_vars.app_name)
+    web_server_path = get_skeleton_path_from_type($env_vars, $env_vars.web_server_type)
+
+    war_path = File.join(web_server_path, $env_vars.app_name)
 
     clean_java_web_workdir($env_vars, war_path)
   end
