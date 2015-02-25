@@ -1,8 +1,10 @@
 module Gordon
   module Cookery
     module Standalone
+      include Common
+
       def install_standalone_files(env_vars, blacklist)
-        skeleton_path = get_skeleton_path_from_type(:misc)
+        skeleton_path = get_skeleton_path_from_type(env_vars, :misc)
 
         application_files = all_files_except_blacklisted(blacklist)
 
