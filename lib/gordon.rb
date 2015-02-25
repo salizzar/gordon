@@ -5,6 +5,7 @@ module Gordon
   require 'gordon/cooker'
   require 'gordon/recipe'
   require 'gordon/env_vars'
+  require 'gordon/exceptions'
   require 'gordon/factory'
   require 'gordon/options'
   require 'gordon/process'
