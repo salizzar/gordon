@@ -25,7 +25,11 @@ module Gordon
           # TODO: get a way to handle openjdk
           runtime_name = :jre
 
-          runtime_version = "#{runtime_name}#{env_vars.runtime_version}"
+          if damn_oracle_8_jre?(env_vars.runtime_version)
+            runtime_version = "#{runtime_name}#{env_vars.runtime_version}"
+          else
+            runtime_version = "#{runtime_name} = #{env_vars.runtime_version}"
+          end
         else
           runtime_name = app_runtime
 
@@ -33,6 +37,10 @@ module Gordon
         end
 
         runtime_version
+      end
+
+      def damn_oracle_8_jre?(runtime_version)
+        runtime_version[2].to_s == '8'
       end
 
       def get_http_server_package_name(env_vars)

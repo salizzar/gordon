@@ -47,12 +47,28 @@ describe Gordon::Cookery::DependencyResolver do
       it 'returns all dependencies for web' do
         expect(env_vars).to receive(:app_type).and_return("java_web_app")
         allow(env_vars).to receive(:http_server_type).and_return("apache")
-        expect(env_vars).to receive(:runtime_version).and_return("1.7.0_60")
+        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_60")
         allow(env_vars).to receive(:web_server_type).and_return("tomcat")
         expect(env_vars).to receive(:init_type).and_return("")
 
         expected = [
-          "jre1.7.0_60",
+          "jre = 1.7.0_60",
+          "httpd",
+          "tomcat",
+        ]
+
+        expect(subject.resolve_dependencies(env_vars)).to eq(expected)
+      end
+
+      it 'handles damn Oracle JRE 8 package name' do
+        expect(env_vars).to receive(:app_type).and_return("java_web_app")
+        allow(env_vars).to receive(:http_server_type).and_return("apache")
+        allow(env_vars).to receive(:runtime_version).and_return("1.8.0_25")
+        allow(env_vars).to receive(:web_server_type).and_return("tomcat")
+        expect(env_vars).to receive(:init_type).and_return("")
+
+        expected = [
+          "jre1.8.0_25",
           "httpd",
           "tomcat",
         ]
