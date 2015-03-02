@@ -1,8 +1,12 @@
 module Gordon
   module Application
     class Factory
-      def self.create(application_type)
+      def self.create(options)
         namespace = "Application::Types"
+
+        runtime_name = options.runtime_name
+        runtime_name = :java if runtime_name =~ /java/
+        application_type = "#{runtime_name}_#{options.app_type}_app"
 
         ::Gordon::Factory.create_instance(namespace, application_type)
       end
