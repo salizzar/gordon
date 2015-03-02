@@ -1,63 +1,70 @@
-require 'fpm/cookery/facts'
-
 module Gordon
   module Cookery
     module DependencyResolver
       include Common
 
-      def resolve_dependencies(env_vars)
-        fragments = env_vars.app_type.split('_')
-        app_runtime, app_type = fragments[0], fragments[1]
-
+      def resolve_dependencies(env_vars, platform)
         dependencies = []
-        dependencies << get_runtime_package_name(app_runtime, env_vars)
-        dependencies << get_http_server_package_name(env_vars)  unless env_vars.http_server_type.empty?
-        dependencies << get_init_package_name(env_vars)         unless env_vars.init_type.empty?
-        dependencies << get_web_server_package_name(env_vars)   unless env_vars.web_server_type.empty?
+
+        dependencies << get_runtime_package_name(env_vars, platform)
+        dependencies << get_http_server_package_name(env_vars, platform)  unless env_vars.http_server_type.empty?
+        dependencies << get_init_package_name(env_vars, platform)         unless env_vars.init_type.empty?
+        dependencies << get_web_server_package_name(env_vars, platform)   unless env_vars.web_server_type.empty?
 
         dependencies.collect(&:to_s)
       end
 
       private
 
-      def get_runtime_package_name(app_runtime, env_vars)
-        if app_runtime == 'java'
-          # TODO: get a way to handle openjdk
-          runtime_name = :jre
+      def get_runtime_package_name(env_vars, platform)
+        runtime_name, runtime_version = env_vars.runtime_name, env_vars.runtime_version
 
-          if damn_oracle_8_jre?(env_vars.runtime_version)
-            runtime_version = "#{runtime_name}#{env_vars.runtime_version}"
-          else
-            runtime_version = "#{runtime_name} = #{env_vars.runtime_version}"
-          end
+        if runtime_name =~ /java/
+          package_name = get_java_package_name(runtime_name, runtime_version, platform)
         else
-          runtime_name = app_runtime
-
-          runtime_version = "#{runtime_name} = #{env_vars.runtime_version}"
+          package_name = "#{runtime_name} = #{runtime_version}"
         end
 
-        runtime_version
+        package_name
+      end
+
+      def get_java_package_name(runtime_name, runtime_version, platform)
+        centos = platform == :centos
+
+        if runtime_name =~ /oracle/ && centos
+          if damn_oracle_8_jre?(runtime_version)
+            package_name = "jre#{runtime_version}"
+          else
+            package_name = "jre = #{runtime_version}"
+          end
+        else
+          if centos
+            package_name = "java-#{runtime_version[0..4]}-openjdk"
+          else
+            package_name = "openjdk-#{runtime_version[2]}-jre"
+          end
+        end
+
+        package_name
       end
 
       def damn_oracle_8_jre?(runtime_version)
         runtime_version[2].to_s == '8'
       end
 
-      def get_http_server_package_name(env_vars)
-        get_os_package_name(env_vars, :http_server_type)
+      def get_http_server_package_name(env_vars, platform)
+        get_os_package_name(env_vars, :http_server_type, platform)
       end
 
-      def get_init_package_name(env_vars)
-        get_os_package_name(env_vars, :init_type)
+      def get_init_package_name(env_vars, platform)
+        get_os_package_name(env_vars, :init_type, platform)
       end
 
-      def get_web_server_package_name(env_vars)
-        get_os_package_name(env_vars, :web_server_type)
+      def get_web_server_package_name(env_vars, platform)
+        get_os_package_name(env_vars, :web_server_type, platform)
       end
 
-      def get_os_package_name(env_vars, attribute)
-        platform = FPM::Cookery::Facts.platform.to_sym
-
+      def get_os_package_name(env_vars, attribute, platform)
         skeleton_type = create_skeleton_type(env_vars.send(attribute))
         os_package_name = skeleton_type.get_os_package_name(platform)
 
