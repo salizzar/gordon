@@ -75,6 +75,10 @@ module Gordon
           options.debug = debug
         end
 
+        opts.on('-t', '--trace', 'Trace Mode') do |trace|
+          options.trace = trace
+        end
+
         opts.on('-h', '--help', 'Displays Help') do
           puts opts
           exit

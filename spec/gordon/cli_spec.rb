@@ -38,6 +38,7 @@ describe Gordon::CLI do
         [ %w(-P --package-type),      "rpm" ],
         [ %w(-O --output-dir),        "pkg" ],
         [ %w(-d --debug),             true ],
+        [ %w(-t --trace),             true ],
       ]
     end
 
