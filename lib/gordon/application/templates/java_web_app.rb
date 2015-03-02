@@ -21,10 +21,10 @@ class JavaWebApp < FPM::Cookery::Recipe
 
   source      $env_vars.app_source, with: :local_path
 
-  depends     *resolve_dependencies($env_vars)
+  depends     *resolve_dependencies($env_vars, platform)
 
-  fpm_attributes[:rpm_user]   = 'tomcat'
-  fpm_attributes[:rpm_group]  = 'tomcat'
+  fpm_attributes["#{FPM::Cookery::Facts.target}_user".to_sym]   = 'tomcat'
+  fpm_attributes["#{FPM::Cookery::Facts.target}_group".to_sym]  = 'tomcat'
 
   def build
     web_server_path = get_skeleton_path_from_type($env_vars, $env_vars.web_server_type)

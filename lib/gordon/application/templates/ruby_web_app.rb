@@ -21,7 +21,7 @@ class RubyWebApp < FPM::Cookery::Recipe
 
   source      $env_vars.app_source, with: :local_path
 
-  depends     *resolve_dependencies($env_vars)
+  depends     *resolve_dependencies($env_vars, platform)
 
   def build
     home_path = get_skeleton_path_from_type($env_vars, $env_vars.http_server_type)
