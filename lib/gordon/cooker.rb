@@ -42,7 +42,6 @@ module Gordon
       cook_args << "--debug"    if options.debug
 
       cook_args << "--target #{options.package_type}"
-#     cook_args << "--platform #{recipe.platform}" if recipe.requires_platform?
       cook_args << "--pkg-dir #{File.expand_path(options.output_dir)}"
       cook_args << "--cache-dir #{File.expand_path(FPM_COOKERY_CACHE_DIR)}"
       cook_args << "--tmp-root #{File.expand_path(FPM_COOKERY_BUILD_DIR)}"
@@ -62,9 +61,17 @@ module Gordon
     end
 
     def debug(command)
+      STDOUT.puts '*' * 80
+      STDOUT.puts ''
+      STDOUT.puts 'Gordon will run the following command:'
       STDOUT.puts ''
       STDOUT.puts command
       STDOUT.puts ''
+      STDOUT.puts 'With these environment variables:'
+      STDOUT.puts ''
+      STDOUT.puts ENV.sort.map { |k, v| "#{k} = #{v}" }.join "\n"
+      STDOUT.puts ''
+      STDOUT.puts '*' * 80
     end
   end
 end
