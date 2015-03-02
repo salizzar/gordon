@@ -17,6 +17,7 @@ describe Gordon::Cooker do
       package_type:     "rpm",
       output_dir:       "pkg",
       debug:            true,
+      trace:            true,
     }
 
     instance_double(Gordon::Options, attrs)
@@ -33,7 +34,7 @@ describe Gordon::Cooker do
   subject { described_class.new(recipe) }
 
   before :each do
-    expect(subject).to receive(:debug)
+    expect(subject).to receive(:debug).at_least(2).times
   end
 
   describe 'cooking a package' do

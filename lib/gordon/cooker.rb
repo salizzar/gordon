@@ -56,17 +56,24 @@ module Gordon
       command = "#{env_vars.join " "} #{FPM_COOKERY_COMMAND} #{cook_args.join " "}"
 
       debug(command) if options.debug
+      trace(command) if options.trace
 
       Process.run(command)
     end
 
     def debug(command)
-      STDOUT.puts '*' * 80
-      STDOUT.puts ''
-      STDOUT.puts 'Gordon will run the following command:'
       STDOUT.puts ''
       STDOUT.puts command
       STDOUT.puts ''
+    end
+
+    def trace(command)
+      STDOUT.puts '*' * 80
+      STDOUT.puts ''
+      STDOUT.puts 'Gordon will run the following command:'
+
+      debug(command)
+
       STDOUT.puts 'With these environment variables:'
       STDOUT.puts ''
       STDOUT.puts ENV.sort.map { |k, v| "#{k} = #{v}" }.join "\n"
