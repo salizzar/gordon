@@ -91,6 +91,7 @@ First, generate war files. After, do the following steps:
 * Set --app-source with the path of war file;
 * Set --runtime-name to java-oracle (only for CentOS platform at this time) or java-openjdk;
 * Set --runtime-version (1.7.0_60, 1.8.0_31; Gordon checks and inject correct version into package metadata).
+* Set --web-server-type to tomcat or jetty;
 * You can avoid --init-type because war files are handled by application server of choice (Tomcat or Jetty).
 
 ## Why you not use Omnibus or Heroku buildpacks?
