@@ -30,9 +30,9 @@ Per example: create a user that will run app with credentials, whose $HOME is th
 
 * Apps supported:
 
-    * Ruby Web App (resides based on Http Server of choice)
-    * Ruby Standalone App (resides on /opt/*app_name*)
-    * Java Web App (resides based on Web Server of choice)
+    * Ruby Web (resides based on Http Server of choice)
+    * Ruby Standalone (resides on /opt/*app_name*)
+    * Java Web (resides based on Web Server of choice)
 
 ## Installation
 
@@ -59,12 +59,13 @@ First, you need to vendorize all gems in deployment mode:
 Here a simple example to build a Ruby Web App that runs Nginx and uses Systemd as init process. Just enter on source folder of your app and run in your terminal:
 
     $ ruby -S gordon                     \
-      --app-type         ruby_web_app    \
+      --app-type         web             \
       --app-name         $APP_NAME       \
       --app-desc         $APP_DESC       \
       --app-home         $APP_HOME       \
       --app-version      $APP_VERSION    \
       --app-source       .               \
+      --runtime-name     ruby            \
       --runtime-version  $MRI_VERSION    \
       --http-server-type nginx           \
       --init-type        systemd         \
@@ -83,6 +84,15 @@ Due for conventions, remember:
 
 Sounds good?
 
+## And for Java Web applications?
+
+First, generate war files. After, do the following steps:
+
+* Set --app-source with the path of war file;
+* Set --runtime-name to java-oracle (only for CentOS platform at this time) or java-openjdk;
+* Set --runtime-version (1.7.0_60, 1.8.0_31; Gordon checks and inject correct version into package metadata).
+* You can avoid --init-type because war files are handled by application server of choice (Tomcat or Jetty).
+
 ## Why you not use Omnibus or Heroku buildpacks?
 
 Because I want a tool able to create Linux packages that can be extensible based on my needs.
@@ -91,15 +101,18 @@ Because I want a tool able to create Linux packages that can be extensible based
 
 Because I not found a trivial way to use fpm when you need to package a application under different directories (Apache2 and Systemd per example). If you show to me, I will think to abolish templates.
 
+## Why you can't handle all recipes into a single one and abstract build and install?
+
+Because I need to call some protected methods on FPM::Cookery::Recipe and adding dynamic mixins will be a nightmare due for complexity to maintain.
+
 ## Why Gordon?
 
 Because I like Gordon Ramsay.
 
 ## TODO
 
+* Add Oracle JRE support for Debian (oracle-jre-installer?)
 * Validate outputs
-* Refactor to have only one FPM::Cookery recipe.
-* Integrate directly with FPM::Cookery classes
 * Debian check (gem heavly developed under CentOS environment)
 
 ## Contributing
