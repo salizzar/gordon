@@ -8,6 +8,6 @@ module Gordon
     attr_accessor :init_type
     attr_accessor :package_type
     attr_accessor :output_dir
-    attr_accessor :debug
+    attr_accessor :debug, :trace
   end
 end
