@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Gordon::Recipe do
-  let(:options)   { instance_double Gordon::Options, app_type: :ruby_web_app }
+  let(:options)   { instance_double Gordon::Options, app_type: :web, runtime_name: :ruby }
   let(:app_type)  { Gordon::Application::Types::RubyWebApp.new }
 
   subject do
@@ -12,16 +12,6 @@ describe Gordon::Recipe do
     it 'maps a new instance of application' do
       expect(subject.application).to be_instance_of(app_type.class)
     end
-  end
-
-  # TODO: check if is really needed
-  describe 'getting a platform' do
-    pending
-  end
-
-  # TODO: check if is really needed
-  describe 'checking if requires platform' do
-    pending
   end
 
   describe 'getting application template path' do

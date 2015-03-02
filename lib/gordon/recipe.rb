@@ -4,20 +4,7 @@ module Gordon
 
     def initialize(options)
       @options = options
-      @application = Application::Factory.create(options.app_type)
-    end
-
-    def platform
-      map = {
-        rpm: :centos,
-        deb: :debian,
-      }
-
-      map[options.package_type.to_sym]
-    end
-
-    def requires_platform?
-      !!platform
+      @application = Application::Factory.create(options)
     end
 
     def application_template_path
