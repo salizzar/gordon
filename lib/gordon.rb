@@ -18,6 +18,7 @@ module Gordon
   require 'gordon/cookery/java/web_app'
   require 'gordon/cookery/init'
   require 'gordon/cookery/http_server'
+  require 'gordon/cookery/log'
   require 'gordon/cookery/ruby/common'
   require 'gordon/cookery/standalone'
   require 'gordon/cookery/web_server'
