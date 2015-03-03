@@ -31,32 +31,20 @@ describe Gordon::Cooker do
     Gordon::EnvVars.from_cook(options)
   end
 
+  let(:working_path) do
+    app_name = File.basename File.expand_path(options.app_source)
+    File.join(described_class::FPM_COOKERY_WORKING_DIR, app_name)
+  end
+
   subject { described_class.new(recipe) }
 
   before :each do
-    expect(subject).to receive(:debug).at_least(2).times
+    allow(subject).to receive(:debug)
   end
 
   describe 'cooking a package' do
     it 'cleans fpm-cookery working directory' do
-      clean_command = %W{
-        #{env_vars.join " "}
-        fpm-cook
-        --debug
-        --target
-        #{options.package_type}
-        --pkg-dir
-        #{File.expand_path(options.output_dir)}
-        --cache-dir
-        #{File.expand_path(described_class::FPM_COOKERY_CACHE_DIR)}
-        --tmp-root
-        #{File.expand_path(described_class::FPM_COOKERY_BUILD_DIR)}
-        --no-deps
-        clean
-        #{recipe.application_template_path}
-      }
-
-      expect(Gordon::Process).to receive(:run).with(clean_command.join " ")
+      expect(FileUtils).to receive(:rm_rf).with(working_path)
 
       expect(subject).to receive(:package)
 
@@ -73,9 +61,9 @@ describe Gordon::Cooker do
         --pkg-dir
         #{File.expand_path(options.output_dir)}
         --cache-dir
-        #{File.expand_path(described_class::FPM_COOKERY_CACHE_DIR)}
+        #{File.expand_path(working_path)}
         --tmp-root
-        #{File.expand_path(described_class::FPM_COOKERY_BUILD_DIR)}
+        #{File.expand_path(working_path)}
         --no-deps
         package
         #{recipe.application_template_path}

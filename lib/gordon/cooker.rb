@@ -1,10 +1,11 @@
+require 'fileutils'
+
 module Gordon
   class Cooker
     attr_reader :recipe, :options
 
-    FPM_COOKERY_COMMAND   = 'fpm-cook'
-    FPM_COOKERY_CACHE_DIR = '/tmp/gordon/cache'
-    FPM_COOKERY_BUILD_DIR = '/tmp/gordon/build'
+    FPM_COOKERY_COMMAND     = 'fpm-cook'
+    FPM_COOKERY_WORKING_DIR = '/tmp/gordon'
 
     def initialize(recipe)
       @recipe = recipe
@@ -19,12 +20,9 @@ module Gordon
     private
 
     def clean
-      cook_args = get_command_args
-
-      cook_args << "clean"
-      cook_args << recipe.application_template_path
-
-      execute(cook_args)
+      # fpm-cook clean command only cleans tmp-build and tmp-dest folders
+      # and don't include cache dir :(
+      FileUtils.rm_rf(get_working_path)
     end
 
     def package
@@ -36,6 +34,14 @@ module Gordon
       execute(cook_args)
     end
 
+    def get_working_path
+      app_path = File.expand_path(options.app_source)
+      app_name = File.basename(app_path)
+      tmp_path = File.join(FPM_COOKERY_WORKING_DIR, app_name)
+
+      tmp_path
+    end
+
     def get_command_args
       cook_args = []
 
@@ -43,8 +49,8 @@ module Gordon
 
       cook_args << "--target #{options.package_type}"
       cook_args << "--pkg-dir #{File.expand_path(options.output_dir)}"
-      cook_args << "--cache-dir #{File.expand_path(FPM_COOKERY_CACHE_DIR)}"
-      cook_args << "--tmp-root #{File.expand_path(FPM_COOKERY_BUILD_DIR)}"
+      cook_args << "--cache-dir #{File.expand_path(get_working_path)}"
+      cook_args << "--tmp-root #{File.expand_path(get_working_path)}"
       cook_args << "--no-deps"
 
       cook_args
