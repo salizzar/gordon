@@ -40,6 +40,7 @@ describe Gordon::Cooker do
 
   before :each do
     allow(subject).to receive(:debug)
+    allow(subject).to receive(:trace)
   end
 
   describe 'cooking a package' do
