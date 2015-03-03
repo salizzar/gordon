@@ -58,24 +58,25 @@ First, you need to vendorize all gems in deployment mode:
 
 Here a simple example to build a Ruby Web App that runs Nginx and uses Systemd as init process. Just enter on source folder of your app and run in your terminal:
 
-    $ ruby -S gordon                     \
-      --app-type         web             \
-      --app-name         $APP_NAME       \
-      --app-desc         $APP_DESC       \
-      --app-home         $APP_HOME       \
-      --app-version      $APP_VERSION    \
-      --app-source       .               \
-      --runtime-name     ruby            \
-      --runtime-version  $MRI_VERSION    \
-      --http-server-type nginx           \
-      --init-type        systemd         \
-      --package-type     rpm             \
+    $ ruby -S gordon                                      \
+      --app-type         web                              \
+      --app-name         my-app                           \
+      --app-description  "my app"                         \
+      --app-homepage     https://github.com/myuser/my-app \
+      --app-version      1.0.0                            \
+      --app-source       .                                \
+      --runtime-name     ruby                             \
+      --runtime-version  2.2.0                            \
+      --http-server-type nginx                            \
+      --init-type        systemd                          \
+      --package-type     rpm                              \
       --output           pkg
 
 It will generate a RPM package in pkg/ with the following structure:
 
 * /usr/share/nginx/html/*all-app-stuff*
 * /usr/lib/systemd/system/*all-systemd-stuff*
+* /var/log/*app-name*
 
 Due for conventions, remember:
 
@@ -113,7 +114,7 @@ Because I like Gordon Ramsay.
 ## TODO
 
 * Add Oracle JRE support for Debian (oracle-jre-installer?)
-* Validate outputs
+* Validate inputs
 * Debian check (gem heavly developed under CentOS environment)
 
 ## Contributing
