@@ -10,6 +10,7 @@ class RubyWebApp < FPM::Cookery::Recipe
 
   include Gordon::Cookery::Common,
           Gordon::Cookery::Init,
+          Gordon::Cookery::Log,
           Gordon::Cookery::ApplicationUser,
           Gordon::Cookery::HttpServer,
           Gordon::Cookery::Ruby::Common
@@ -23,6 +24,9 @@ class RubyWebApp < FPM::Cookery::Recipe
 
   depends     *resolve_dependencies($env_vars, platform)
 
+  fpm_attributes["#{FPM::Cookery::Facts.target}_user".to_sym]   = $env_vars.app_name
+  fpm_attributes["#{FPM::Cookery::Facts.target}_group".to_sym]  = $env_vars.app_name
+
   def build
     home_path = get_skeleton_path_from_type($env_vars, $env_vars.http_server_type)
 
@@ -33,6 +37,8 @@ class RubyWebApp < FPM::Cookery::Recipe
   end
 
   def install
+    create_log_folder($env_vars)
+
     install_init($env_vars)
     install_http_server_files($env_vars, RUBY_BLACKLIST_FILES)
   end
