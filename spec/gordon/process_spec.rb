@@ -18,7 +18,7 @@ describe Gordon::Process do
     it 'raises error if call returns one' do
       expect(Process).to receive(:wait2).with(pid).and_return([ pid, 1 ])
 
-      expect{ described_class.run(command) }.to raise_error
+      expect{ described_class.run(command) }.to raise_error(SystemCallError)
     end
   end
 end
