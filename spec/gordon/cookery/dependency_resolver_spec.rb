@@ -43,16 +43,16 @@ describe Gordon::Cookery::DependencyResolver do
       end
     end
 
-    context 'given a java standalone app' do
-      it 'returns all dependencies for web' do
+    context 'given a java app' do
+      it 'handles Oracle JRE 7 package' do
         allow(env_vars).to receive(:http_server_type).and_return("apache")
-        expect(env_vars).to receive(:runtime_name).and_return("java-oracle")
-        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_60")
+        expect(env_vars).to receive(:runtime_name).and_return("oracle-jre")
+        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_80")
         allow(env_vars).to receive(:web_server_type).and_return("tomcat")
         expect(env_vars).to receive(:init_type).and_return("")
 
         expected = [
-          "jre = 1.7.0_60",
+          "jre = 1.7.0_80",
           "httpd",
           "tomcat",
         ]
@@ -60,15 +60,47 @@ describe Gordon::Cookery::DependencyResolver do
         expect(subject.resolve_dependencies(env_vars, :centos)).to eq(expected)
       end
 
-      it 'handles damn Oracle JRE 8 package name' do
+      it 'handles Oracle JRE 8 package' do
         allow(env_vars).to receive(:http_server_type).and_return("apache")
-        expect(env_vars).to receive(:runtime_name).and_return("java-oracle")
-        allow(env_vars).to receive(:runtime_version).and_return("1.8.0_25")
+        expect(env_vars).to receive(:runtime_name).and_return("oracle-jre")
+        allow(env_vars).to receive(:runtime_version).and_return("1.8.0_45")
         allow(env_vars).to receive(:web_server_type).and_return("tomcat")
         expect(env_vars).to receive(:init_type).and_return("")
 
         expected = [
-          "jre1.8.0_25",
+          "jre1.8.0_45",
+          "httpd",
+          "tomcat",
+        ]
+
+        expect(subject.resolve_dependencies(env_vars, :centos)).to eq(expected)
+      end
+
+      it 'handles Oracle JDK 7 package' do
+        allow(env_vars).to receive(:http_server_type).and_return("apache")
+        expect(env_vars).to receive(:runtime_name).and_return("oracle-jdk")
+        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_80")
+        allow(env_vars).to receive(:web_server_type).and_return("tomcat")
+        expect(env_vars).to receive(:init_type).and_return("")
+
+        expected = [
+          "jdk = 1.7.0_80",
+          "httpd",
+          "tomcat",
+        ]
+
+        expect(subject.resolve_dependencies(env_vars, :centos)).to eq(expected)
+      end
+
+      it 'handles Oracle JDK 8 package' do
+        allow(env_vars).to receive(:http_server_type).and_return("apache")
+        expect(env_vars).to receive(:runtime_name).and_return("oracle-jdk")
+        allow(env_vars).to receive(:runtime_version).and_return("1.8.0_45")
+        allow(env_vars).to receive(:web_server_type).and_return("tomcat")
+        expect(env_vars).to receive(:init_type).and_return("")
+
+        expected = [
+          "jdk1.8.0_45",
           "httpd",
           "tomcat",
         ]
@@ -78,8 +110,8 @@ describe Gordon::Cookery::DependencyResolver do
 
       it 'handles OpenJDK package name for centos' do
         allow(env_vars).to receive(:http_server_type).and_return("apache")
-        expect(env_vars).to receive(:runtime_name).and_return("java-openjdk")
-        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_60")
+        expect(env_vars).to receive(:runtime_name).and_return("openjdk")
+        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_80")
         allow(env_vars).to receive(:web_server_type).and_return("tomcat")
         expect(env_vars).to receive(:init_type).and_return("")
 
@@ -92,10 +124,10 @@ describe Gordon::Cookery::DependencyResolver do
         expect(subject.resolve_dependencies(env_vars, :centos)).to eq(expected)
       end
 
-      it 'assigns java-oracle to OpenJDK for debian' do
+      it 'assigns oracle-jre to OpenJDK for debian' do
         allow(env_vars).to receive(:http_server_type).and_return("apache")
-        expect(env_vars).to receive(:runtime_name).and_return("java-oracle")
-        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_60")
+        expect(env_vars).to receive(:runtime_name).and_return("oracle-jre")
+        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_80")
         allow(env_vars).to receive(:web_server_type).and_return("tomcat")
         expect(env_vars).to receive(:init_type).and_return("")
 
@@ -110,8 +142,8 @@ describe Gordon::Cookery::DependencyResolver do
 
       it 'handles OpenJDK package name for debian' do
         allow(env_vars).to receive(:http_server_type).and_return("apache")
-        expect(env_vars).to receive(:runtime_name).and_return("java-openjdk")
-        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_60")
+        expect(env_vars).to receive(:runtime_name).and_return("openjdk")
+        allow(env_vars).to receive(:runtime_version).and_return("1.7.0_80")
         allow(env_vars).to receive(:web_server_type).and_return("tomcat")
         expect(env_vars).to receive(:init_type).and_return("")
 
