@@ -7,11 +7,12 @@ describe Gordon::Cookery::Standalone do
     end.new
   end
 
-  let(:app_name)  { "gordon" }
-  let(:env_vars)  { instance_double Gordon::EnvVars, app_name: app_name }
-  let(:skeleton)  { Gordon::Skeleton::Types::Misc.new }
-  let(:all_files) { %w(.bundle app config lib .ruby-version .ruby-gemset) }
-  let(:blacklist) { %w(.git) }
+  let(:app_name)    { "gordon" }
+  let(:attributes)  { { app_name: app_name, app_source_excludes: %w(something) } }
+  let(:env_vars)    { instance_double Gordon::EnvVars, attributes }
+  let(:skeleton)    { Gordon::Skeleton::Types::Misc.new }
+  let(:all_files)   { %w(.bundle app config lib .ruby-version .ruby-gemset) }
+  let(:blacklist)   { %w(.git) }
 
   before :each do
     expect(Gordon::Skeleton::Types::Misc).to receive(:new).and_return(skeleton)
@@ -19,7 +20,7 @@ describe Gordon::Cookery::Standalone do
 
   describe 'installing files' do
     it 'install all files based on misc skeleton' do
-      expect(subject).to receive(:all_files_except_blacklisted).with(blacklist).and_return(all_files)
+      expect(subject).to receive(:all_files_except_blacklisted).with(blacklist, attributes[:app_source_excludes]).and_return(all_files)
 
       installer = double 'a path helper'
       expect(subject).to receive(:root).with(skeleton.path(app_name)).and_return(installer)
