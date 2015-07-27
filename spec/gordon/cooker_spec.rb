@@ -3,28 +3,29 @@ require 'spec_helper'
 describe Gordon::Cooker do
   let(:options) do
     attrs = {
-      app_type:         "web",
-      app_name:         "gordon",
-      app_description:  "a packager",
-      app_homepage:     "https://github.com/salizzar/gordon",
-      app_version:      Gordon::VERSION,
-      app_source:       ".",
-      runtime_name:     "ruby",
-      runtime_version:  "2.2.0",
-      http_server_type: "nginx",
-      web_server_type:  "unicorn",
-      init_type:        "systemd",
-      package_type:     "rpm",
-      output_dir:       "pkg",
-      debug:            true,
-      trace:            true,
+      app_type:             "web",
+      app_name:             "gordon",
+      app_description:      "a packager",
+      app_homepage:         "https://github.com/salizzar/gordon",
+      app_version:          Gordon::VERSION,
+      app_source:           ".",
+      app_source_excludes:  %w(an path),
+      runtime_name:         "ruby",
+      runtime_version:      "2.2.0",
+      http_server_type:     "nginx",
+      web_server_type:      "unicorn",
+      init_type:            "systemd",
+      package_type:         "rpm",
+      output_dir:           "pkg",
+      debug:                true,
+      trace:                true,
     }
 
     instance_double(Gordon::Options, attrs)
   end
 
-  let(:recipe) do
-    instance_double(Gordon::Recipe, options: options, application_template_path: '/a/path')
+  let(:recipes) do
+    [ instance_double(Gordon::Recipe, options: options, application_template_path: '/a/path') ]
   end
 
   let(:env_vars) do
@@ -36,7 +37,7 @@ describe Gordon::Cooker do
     File.join(described_class::FPM_COOKERY_WORKING_DIR, app_name)
   end
 
-  subject { described_class.new(recipe) }
+  subject { described_class.new(recipes) }
 
   before :each do
     allow(subject).to receive(:debug)
@@ -67,7 +68,7 @@ describe Gordon::Cooker do
         #{File.expand_path(working_path)}
         --no-deps
         package
-        #{recipe.application_template_path}
+        #{recipes[0].application_template_path}
       }
 
       expect(Gordon::Process).to receive(:run).with(package_command.join " ")
