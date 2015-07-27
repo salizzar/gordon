@@ -2,6 +2,7 @@ require "gordon/version"
 
 module Gordon
   require 'gordon/cli'
+  require 'gordon/cookbook'
   require 'gordon/cooker'
   require 'gordon/recipe'
   require 'gordon/env_vars'
