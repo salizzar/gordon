@@ -10,8 +10,8 @@ module Gordon
       parser = create_option_parser(options)
       parser.parse!
 
-      recipe = Recipe.new(options)
-      cooker = Cooker.new(recipe)
+      recipes = Cookbook.exists? ? Cookbook.read_and_merge_with(options) : [ Recipe.new(options) ]
+      cooker = Cooker.new(recipes)
       cooker.cook
     end
 
@@ -37,6 +37,10 @@ module Gordon
 
         opts.on('-S', '--app-source APP_SOURCE', 'Application Source') do |app_source|
           options.app_source = app_source
+        end
+
+        opts.on('-E', '--app-source-excludes APP_SOURCE_EXCLUDES', 'Application Source Excludes List') do |app_source_excludes|
+          options.app_source_excludes = app_source_excludes
         end
 
         opts.on('-T', '--app-type APP_TYPE', 'Application Type') do |app_type|
