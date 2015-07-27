@@ -9,7 +9,8 @@ describe Gordon::Cookery::HttpServer do
 
   let(:app_name)          { "gordon" }
   let(:http_server_type)  { :apache }
-  let(:env_vars)          { double Gordon::EnvVars, app_name: app_name, http_server_type: http_server_type }
+  let(:attributes)        { { app_name: app_name, app_source_excludes: %w(something), http_server_type: http_server_type } }
+  let(:env_vars)          { double Gordon::EnvVars, attributes }
   let(:skeleton)          { Gordon::Skeleton::Types::Apache.new }
   let(:all_files)         { %w(index.php pimp_my_system.php) }
   let(:blacklist)         { %w(.git) }
@@ -20,7 +21,7 @@ describe Gordon::Cookery::HttpServer do
 
   describe 'installing files' do
     it 'install files based on http server path' do
-      expect(subject).to receive(:all_files_except_blacklisted).with(blacklist).and_return(all_files)
+      expect(subject).to receive(:all_files_except_blacklisted).with(blacklist, attributes[:app_source_excludes]).and_return(all_files)
 
       installer = double 'a path helper'
       expect(subject).to receive(:root).with(skeleton.path).and_return(installer)
