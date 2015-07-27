@@ -9,7 +9,8 @@ describe Gordon::Cookery::WebServer do
 
   let(:app_name)        { "gordon" }
   let(:web_server_type) { :tomcat }
-  let(:env_vars)        { double Gordon::EnvVars, app_name: app_name, web_server_type: web_server_type }
+  let(:attributes)      { { app_name: app_name, app_source_excludes: %w(something), web_server_type: web_server_type } }
+  let(:env_vars)        { double Gordon::EnvVars, attributes }
   let(:skeleton)        { Gordon::Skeleton::Types::Tomcat.new }
   let(:all_files)       { %w(gordon.war) }
   let(:blacklist)       { %w(gordon.class) }
@@ -20,7 +21,7 @@ describe Gordon::Cookery::WebServer do
 
   describe 'installing web server files' do
     it 'install files based on web server path' do
-      expect(subject).to receive(:all_files_except_blacklisted).with(blacklist).and_return(all_files)
+      expect(subject).to receive(:all_files_except_blacklisted).with(blacklist, attributes[:app_source_excludes]).and_return(all_files)
 
       installer = double 'a path helper'
       expect(subject).to receive(:root).with(skeleton.path).and_return(installer)
