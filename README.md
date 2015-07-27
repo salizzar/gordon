@@ -51,6 +51,51 @@ Or install it yourself as:
 
 ## Usage
 
+Gordon have two ways to package applications. You can create a yaml file called `gordon.yml` on root of your app. Here an example:
+
+```
+recipes:
+  # web app
+  - app_name:         web-app
+    app_description:  web-app
+    app_homepage:     https://github.com/web/app
+    app_type:         web
+    app_source:       web-app/
+    app_source_excludes:
+      - log
+      - tmp
+
+    runtime_name:     ruby
+    runtime_version:  2.2.2
+    http_server_type: nginx
+    init_type:        systemd
+
+    package_type:     rpm
+    output_dir:       pkg
+
+  # standalone app
+  - app_name:         standalone-app
+    app_description:  standalone-app
+    app_homepage:     https://github.com/standalone/app
+    app_type:         standalone
+    app_source:       standalone-app/
+    app_source_excludes:
+      - classes
+
+    runtime_name:     oracle-jre
+    runtime_version:  1.8.0_45
+
+    package_type:     rpm
+    output_dir:       pkg
+
+```
+
+For more details about all parameters available, please run `gordon --help` for more details.
+
+Another way is using CLI directly. Below some examples how to use it.
+
+### Usage: Packing a Ruby Web Application
+
 First, you need to vendorize all gems in deployment mode:
 
     $ ruby -S bundle package --all
@@ -61,8 +106,8 @@ Here a simple example to build a Ruby Web App that runs Nginx and uses Systemd a
 
     $ ruby -S gordon                                      \
       --app-type         web                              \
-      --app-name         my-app                           \
-      --app-description  "my app"                         \
+      --app-name         my-ruby-app                      \
+      --app-description  "my ruby app"                    \
       --app-homepage     https://github.com/myuser/my-app \
       --app-version      1.0.0                            \
       --app-source       .                                \
@@ -86,24 +131,41 @@ Due for conventions, remember:
 
 Sounds good?
 
-## And for Java Web applications?
+### Usage: Java Web Application
 
 First, generate war files. After, do the following steps:
 
-* Set `--app-type` with "web"
-* Set `--app-source` with the path of war file;
-* Set `--runtime-name` to oracle-jre / oracle-jdk (only for CentOS platform at this time) or openjdk;
-* Set `--runtime-version` (1.7.0_60, 1.8.0_31 etc; Gordon checks and inject correct version into package metadata);
-* Set `--web-server-type` to `tomcat` or `jetty`;
-* You must avoid `--init-type` because war files are handled by application server of choice (Tomcat or Jetty).
+    $ ruby -S gordon                                      \
+      --app-type         web                              \
+      --app-name         my-java-app                      \
+      --app-description  "my java app"                    \
+      --app-homepage     https://github.com/myuser/my-app \
+      --app-version      1.0.0                            \
+      --app-source       path/of/application.war          \
+      --runtime-name     oracle-jdk                       \
+      --runtime-version  1.8.0_45                         \
+      --http-server-type apache                           \
+      --web-server-type  tomcat                           \
+      --package-type     rpm                              \
+      --output           pkg
 
-## And Java standalone apps?
+You must avoid `--init-type` because war files are handled by application server of choice (Tomcat or Jetty).
+
+## Usage: Java Standalone Application
 
 Generate jar files before and after pass some parameters:
 
-* Set `--app-type` with "standalone";
-* Set `--app-source` with the path of jar file;
-* Other options as described above for web apps.
+    $ ruby -S gordon                                      \
+      --app-type         web                              \
+      --app-name         my-java-standalone-app           \
+      --app-description  "my java standalone app"         \
+      --app-homepage     https://github.com/myuser/my-app \
+      --app-version      1.0.0                            \
+      --app-source       path/of/application.jar          \
+      --runtime-name     oracle-jdk                       \
+      --runtime-version  1.8.0_45                         \
+      --package-type     rpm                              \
+      --output           pkg
 
 ## Why you not use Omnibus or Heroku buildpacks?
 
@@ -123,10 +185,10 @@ Because I like Gordon Ramsay.
 
 ## TODO
 
+* Debian check (gem heavly developed under CentOS environment)
 * Export init files to other formats supported by foreman;
 * Add Oracle JRE / JDK support for Debian (maybe oracle-jre-installer?)
 * Validate inputs
-* Debian check (gem heavly developed under CentOS environment)
 
 ## Contributing
 
