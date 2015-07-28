@@ -51,7 +51,7 @@ Or install it yourself as:
 
 ## Usage
 
-Gordon have two ways to package applications. You can create a yaml file called `gordon.yml` on root of your app. Here an example:
+Gordon have two ways to package applications. You can create a yaml file called `gordon.yml` on root of your app. Here an example how to package two apps: ruby web and standalone java.
 
 ```
 recipes:
