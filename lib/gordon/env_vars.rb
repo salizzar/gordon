@@ -14,7 +14,7 @@ module Gordon
       env_vars << "GORDON_APP_HOMEPAGE='#{options.app_homepage}'"
       env_vars << "GORDON_APP_VERSION='#{options.app_version}'"
       env_vars << "GORDON_APP_SOURCE='#{File.expand_path(options.app_source)}'"
-      env_vars << "GORDON_APP_SOURCE_EXCLUDES='#{options.app_source_excludes.to_a.map { |path| File.expand_path(path)}.join(",") }'"
+      env_vars << "GORDON_APP_SOURCE_EXCLUDES='#{options.app_source_excludes.to_a.join(",") }'"
       env_vars << "GORDON_RUNTIME_NAME='#{options.runtime_name}'"
       env_vars << "GORDON_RUNTIME_VERSION='#{options.runtime_version}'"
       env_vars << "GORDON_HTTP_SERVER_TYPE='#{options.http_server_type}'"

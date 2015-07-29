@@ -29,7 +29,7 @@ describe Gordon::EnvVars do
         "GORDON_APP_HOMEPAGE='#{options.app_homepage}'",
         "GORDON_APP_VERSION='#{options.app_version}'",
         "GORDON_APP_SOURCE='#{File.expand_path(options.app_source)}'",
-        "GORDON_APP_SOURCE_EXCLUDES='#{options.app_source_excludes.map{ |path| File.expand_path(path) }.join(",") }'",
+        "GORDON_APP_SOURCE_EXCLUDES='#{options.app_source_excludes.join(",") }'",
         "GORDON_RUNTIME_NAME='#{options.runtime_name}'",
         "GORDON_RUNTIME_VERSION='#{options.runtime_version}'",
         "GORDON_HTTP_SERVER_TYPE='#{options.http_server_type}'",
