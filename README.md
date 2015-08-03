@@ -1,8 +1,8 @@
 # Gordon
 
-We all know that build application packages is a pain. A lot of pain.
+We all know that packaging applications is a pain. A lot of pain.
 
-Of course, [fpm](https://github.com/jordansissel/fpm) is a awesome tool to abstract package building for a lot of Operational Systems. Period.
+Of course, [fpm](https://github.com/jordansissel/fpm) is a awesome tool to abstract package generation for a lot of Operational Systems. Period.
 
 Of course, [fpm-cookery](https://github.com/bernd/fpm-cookery) is another great tool to approach building as a simple recipe.
 
@@ -12,7 +12,7 @@ But, unfortunately, create fpm-cookery recipes for each application can be borin
 
 And when you are in front with a web application that breaks Nginx or Apache conventions? Do you remember that feel, bro?
 
-Gordon is a try to automagically create init files using Foreman and build artifacts using fpm-cookery, on the shoulder of conventions. Make developers free to develop, while you have apps under a minimal control in ops side of view.
+Gordon is a try to automagically create init files using Foreman and export artifacts using fpm-cookery, on the shoulder of conventions. Make developers free to develop, while you have apps under a minimal control in ops side of view.
 
 ## How it works?
 
@@ -51,7 +51,7 @@ Or install it yourself as:
 
 ## Usage
 
-Gordon have two ways to package applications. You can create a yaml file called `gordon.yml` on root of your app. Here an example how to package two apps: ruby web and standalone java.
+Gordon have two ways to package applications. You can create a yaml file called `gordon.yml` on root of your app and CLI will detect it automatically. Here an example how to package two apps: ruby web and standalone java.
 
 ```
 recipes:
@@ -90,7 +90,7 @@ recipes:
 
 ```
 
-For more details about all parameters available, please run `gordon --help` for more details.
+For more details about all parameters available, please run `gordon --help`.
 
 Another way is using CLI directly. Below some examples how to use it.
 

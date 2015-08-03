@@ -16,4 +16,3 @@ module Gordon
   end
 end
 
-
