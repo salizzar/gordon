@@ -1,19 +1,28 @@
 require 'spec_helper'
 
 describe Gordon::Cookbook do
-  let(:path) { File.join(Dir.pwd, 'gordon.yml') }
+  let(:gordon_yaml_path) { File.join(Dir.pwd, 'gordon.yml') }
+  let(:recipe_yaml_path) { File.join(Dir.pwd, 'recipe.yml') }
 
   context 'checking if file exists' do
-    it 'returns true when exists' do
-      expect(File).to receive(:exists?).with(path).and_return(true)
+    let(:options) { instance_double(Gordon::Options) }
 
-      expect(described_class.exists?).to be_truthy
+    it 'returns true when recipe yaml exists' do
+      expect(options).to receive(:recipe).and_return('recipe.yml')
+
+      expect(File).to     receive(:exists?).with(recipe_yaml_path).and_return(true)
+      expect(File).to_not receive(:exists?).with(gordon_yaml_path)
+
+      expect(described_class.exists?(options)).to be_truthy
     end
 
-    it 'returns false otherwise' do
-      expect(File).to receive(:exists?).with(path).and_return(false)
+    it 'returns true when gordon yaml exists' do
+      expect(options).to receive(:recipe).and_return(nil)
 
-      expect(described_class.exists?).to be_falsey
+      expect(File).to     receive(:exists?).with(gordon_yaml_path).and_return(true)
+      expect(File).to_not receive(:exists?).with(recipe_yaml_path)
+
+      expect(described_class.exists?(options)).to be_truthy
     end
   end
 
@@ -37,12 +46,17 @@ describe Gordon::Cookbook do
     let(:recipe)        { instance_double(Gordon::Recipe) }
     let(:recipes)       { [ recipe ] }
 
-    it 'renders gordon yaml file and returns a list of recipes' do
-      expect(File).to receive(:read).with(path).and_return(content)
+    it 'renders recipe yaml file and returns a list of recipes' do
+      expect(main_options).to receive(:recipe).and_return('recipe.yml')
+
+      expect(File).to     receive(:exists?).with(recipe_yaml_path).and_return(true)
+      expect(File).to_not receive(:exists?).with(gordon_yaml_path)
+
+      expect(File).to receive(:read).with(recipe_yaml_path).and_return(content)
 
       erb = instance_double(ERB)
-      expect(erb).to receive(:result).and_return(result)
-      expect(ERB).to receive(:new).with(content).and_return(erb)
+      expect(erb).to  receive(:result).and_return(result)
+      expect(ERB).to  receive(:new).with(content).and_return(erb)
       expect(YAML).to receive(:load).with(result).and_return(yaml)
 
       option = instance_double(Gordon::Options)
@@ -50,6 +64,34 @@ describe Gordon::Cookbook do
       expect(Gordon::Recipe).to receive(:new).with(option).and_return(recipe)
 
       expect(described_class.read_and_merge_with(main_options)).to eq(recipes)
+    end
+
+    it 'renders gordon yaml file and returns a list of recipes' do
+      expect(main_options).to receive(:recipe).and_return(nil)
+
+      expect(File).to_not receive(:exists?).with(recipe_yaml_path)
+      expect(File).to     receive(:exists?).with(gordon_yaml_path).and_return(true)
+
+      expect(File).to     receive(:read).with(gordon_yaml_path).and_return(content)
+
+      erb = instance_double(ERB)
+      expect(erb).to  receive(:result).and_return(result)
+      expect(ERB).to  receive(:new).with(content).and_return(erb)
+      expect(YAML).to receive(:load).with(result).and_return(yaml)
+
+      option = instance_double(Gordon::Options)
+      expect(Gordon::Options).to receive(:from).with(main_options, yaml['recipes'].first).and_return(option)
+      expect(Gordon::Recipe).to receive(:new).with(option).and_return(recipe)
+
+      expect(described_class.read_and_merge_with(main_options)).to eq(recipes)
+    end
+
+    it 'raises error when no recipe is found' do
+      expect(main_options).to receive(:recipe).and_return(nil)
+
+      expect(File).to receive(:exists?).with(gordon_yaml_path).and_return(false)
+
+      expect{ described_class.read_and_merge_with(main_options) }.to raise_error(Gordon::Exceptions::RecipeNotFound)
     end
   end
 end
