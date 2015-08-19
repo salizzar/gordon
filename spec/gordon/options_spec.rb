@@ -62,6 +62,12 @@ describe Gordon::Options do
       expect(instance.app_source).to eq(recipe['app_source'])
     end
 
+    it 'priorizes output dir from recipe instead of main option' do
+      instance = described_class.from(main_options, recipe)
+
+      expect(instance.output_dir).to eq(recipe['output_dir'])
+    end
+
     it 'merges app source excludes values from main options and recipes' do
       instance = described_class.from(main_options, recipe)
 

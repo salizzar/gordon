@@ -2,6 +2,7 @@ module Gordon
   class Options
     attr_accessor :app_name, :app_description, :app_homepage, :app_version, :app_source, :app_source_excludes, :app_type
     attr_accessor :runtime_name, :runtime_version
+    attr_accessor :recipe
     attr_accessor :http_server_type
     attr_accessor :web_server_type
     attr_accessor :init_type
@@ -28,7 +29,7 @@ module Gordon
         opt.init_type           = main_options.init_type            || recipe['init_type']
 
         opt.package_type        = main_options.package_type         || recipe['package_type']
-        opt.output_dir          = main_options.output_dir           || recipe['output_dir']
+        opt.output_dir          = recipe['output_dir']              || main_options.output_dir
 
         opt.debug               = !main_options.debug.nil? ? main_options.debug : recipe['debug']
         opt.trace               = !main_options.trace.nil? ? main_options.trace : recipe['trace']
