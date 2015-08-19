@@ -10,7 +10,7 @@ module Gordon
       parser = create_option_parser(options)
       parser.parse!
 
-      recipes = Cookbook.exists? ? Cookbook.read_and_merge_with(options) : [ Recipe.new(options) ]
+      recipes = Cookbook.exists?(options) ? Cookbook.read_and_merge_with(options) : [ Recipe.new(options) ]
       cooker = Cooker.new(recipes)
       cooker.cook
     end
@@ -73,6 +73,10 @@ module Gordon
 
         opts.on('-O', '--output-dir OUTPUT_DIR', 'Output Directory') do |output_dir|
           options.output_dir = output_dir
+        end
+
+        opts.on('-C', '--recipe RECIPE', 'Gordon YAML Recipe') do |recipe|
+          options.recipe = recipe
         end
 
         opts.on('-d', '--debug', 'Debug Mode') do |debug|

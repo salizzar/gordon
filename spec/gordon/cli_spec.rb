@@ -51,6 +51,7 @@ describe Gordon::CLI do
         [ %w(-S --app-source),          "." ],
         [ %w(-E --app-source-excludes), %(an path) ],
         [ %w(-T --app-type),            "web" ],
+        [ %w(-C --recipe),              "xirubiru.yml" ],
         [ %w(-X --runtime-name),        "ruby" ],
         [ %w(-R --runtime-version),     "2.2.0" ],
         [ %w(-H --http-server-type),    "nginx" ],
