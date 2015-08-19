@@ -1,0 +1,20 @@
+recipes:
+  - app_name:         example-2
+    app_description:  example-2
+    app_homepage:     https://github.com/salizzar/gordon
+    app_type:         web
+    app_source:       spec/fixtures/example-2/example-2.war
+    app_version:      1.0.0
+
+    http_server_type: apache
+    web_server_type:  tomcat
+
+    runtime_name:     oracle-jdk
+    runtime_version:  1.8.0_45
+
+    http_server_type: apache
+    web_server_type:  tomcat
+
+    package_type:     rpm
+    output_dir:       pkg
+

@@ -1,0 +1,18 @@
+recipes:
+  - app_name:         example-1
+    app_description:  example-1
+    app_homepage:     https://github.com/salizzar/gordon
+    app_type:         standalone
+    app_source:       spec/fixtures/example-1
+    app_version:      1.0.0
+    app_source_excludes:
+      - tmp
+
+    runtime_name:     ruby
+    runtime_version:  2.2.2
+
+    init_type:        systemd
+
+    package_type:     rpm
+    output_dir:       pkg
+
