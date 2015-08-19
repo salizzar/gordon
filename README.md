@@ -90,7 +90,7 @@ recipes:
 
 ```
 
-For more details about all parameters available, please run `gordon --help`.
+Gordon will look for yaml file defined by `--recipe` parameter before detect a gordon.yml on your current directory. For more details about all parameters available, please run `gordon --help`.
 
 Another way is using CLI directly. Below some examples how to use it.
 
